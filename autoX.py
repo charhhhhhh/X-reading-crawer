@@ -30,7 +30,7 @@ Readingbtn.click()
 
 # %%
 
-sleep(2)
+sleep(3)
 for i in range(20):
     driver.set_window_size(640, 750)
     sleep(random.randint(25, 30))
