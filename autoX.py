@@ -2,13 +2,14 @@ from tkinter.font import BOLD
 import selenium
 import random
 
-from Pw import passwor, mail
+# from Pw import passwor, mail
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from tkinter.constants import CENTER  # 加到第一行
 import tkinter as tk
-from setuptools import Command
+
+# from setuptools import Command
 import tkinter.messagebox
 
 
