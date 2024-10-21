@@ -2,7 +2,7 @@ from tkinter.font import BOLD
 import selenium
 import random
 
-# from Pw import passwor, mail
+from Pw import passwor, mail
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -29,52 +29,60 @@ def init():
         tk.messagebox.showinfo("錯誤訊息", f"頁數爛了")  # type: ignore
     elif not is_integer(se):
         tk.messagebox.showinfo("錯誤訊息", f"間格爛了")  # type: ignore
-
-    print(f"{gm} {pa} {mu} {se}")
-    pass
+    else:
+        print(f"{gm} {pa} {mu} {se}")
+        crawer(gm, pa, mu, se)
     # print(f"{test.get()}")
 
 
-def crawer():
+def crawer(Gmail, Password, Pagemun, Pagesec):
     # edge people
     driver = webdriver.Edge()
     url = "https://www.xreading.com/login/index.php"
     driver.get(url)
+
     username = driver.find_element("id", "username")
     password = driver.find_element("id", "password")
     loginbtn = driver.find_element("id", "loginbtn")
 
     sleep(1)
-    username.send_keys(mail)
-    password.send_keys(passwor)
+    username.send_keys(Gmail)
+    password.send_keys(Password)
     loginbtn.click()
+    try:
+        driver.find_element(By.XPATH, '//*[@id="user-menu-toggle"]/span/span/span/span')
+    except:
+        tk.messagebox.showinfo("錯誤訊息", "帳號或密碼爛了")  # type: ignore
+        return
 
-    Readingbtn = driver.find_element(By.LINK_TEXT, "Continue Reading")
-    Readingbtn.click()
-
-    sleep(3)
-    for i in range(20):
+    sleep(1)
+    try:
+        Readingbtn = driver.find_element(By.LINK_TEXT, "Continue Reading")
+        Readingbtn.click()
+    except:
+        tk.messagebox.showinfo("錯誤訊息", "未選取書籍/已閱讀完畢")  # type: ignore
+        return
+    sleep(2)
+    for i in range(Pagemun):
         driver.set_window_size(640, 750)
-        sleep(random.randint(25, 30))
+        sleep(Pagesec / 2)
         driver.execute_script("window.scrollBy(0, 375);")
-        sleep(random.randint(20, 25))
+        sleep(Pagesec / 2)
         driver.execute_script("window.scrollBy(0, 375);")
         btns = driver.find_elements(By.TAG_NAME, "button")
-        end = 0
 
         for btn in btns:
             if btn.text == "Close":
                 btn.click()
                 end = 1
+                tk.messagebox.showinfo("完成訊息", "讀完整本書了")  # type: ignore
                 break
             elif btn.text == "Next":
                 btn.click()
                 print(f"now done {i+1}st page")
                 break
-        if end == 1:
-            print(f"dook is done")
-            break
-
+        if i == Pagemun - 1:
+            tk.messagebox.showinfo("完成訊息", f"讀完{pagemun}頁了")  # type: ignore
     sleep(5)
 
     driver.close()
@@ -85,10 +93,10 @@ window = tk.Tk()
 window.title("autox autox autox autox autox autox autox autox autox autox autox ")
 window.geometry("300x300")
 window.resizable(False, False)
-window.iconbitmap("logo.ico")
+window.iconbitmap("X reading crawer\\logo.ico")
 
 lb = tk.Label(
-    text="gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail gmail ",
+    text="gmail gmail gmail gmail gmail gmail ",
     height=1,
     font=("Arial", 14),
 )
@@ -98,7 +106,7 @@ gmail = tk.Entry(width=40)
 gmail.place(x=8, y=25)
 
 lb2 = tk.Label(
-    text="password password password password password password password password password password password ",
+    text="password password password password password password ",
     height=1,
     font=("Arial", 14),
 )
@@ -108,7 +116,7 @@ password = tk.Entry(width=40)
 password.place(x=8, y=75)
 
 lb3 = tk.Label(
-    text="讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁",
+    text="讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 ",
     height=1,
     font=("Arial", 14),
 )
@@ -118,7 +126,7 @@ pagemun = tk.Entry(width=40)
 pagemun.place(x=8, y=125)
 
 lb4 = tk.Label(
-    text="隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 ",
+    text="隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 ",
     height=1,
     font=("Arial", 14),
 )
