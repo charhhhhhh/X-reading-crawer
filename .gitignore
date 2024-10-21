@@ -1,1 +1,5 @@
 Pw.py
+__pycache__/
+dist
+build
+autoX.spec
