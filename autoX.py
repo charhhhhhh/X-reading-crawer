@@ -9,9 +9,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from tkinter.constants import CENTER  # 加到第一行
 import tkinter as tk
+from tkinter import messagebox
 
 # from setuptools import Command
-import tkinter.messagebox
 
 
 def is_integer(text):
@@ -38,6 +38,9 @@ def init():
 
 def crawer(Gmail, Password, Pagemun, Pagesec):
     # edge people
+    Pagemun = int(Pagemun)
+    Pagesec = int(Pagesec)
+
     driver = webdriver.Edge()
     url = "https://www.xreading.com/login/index.php"
     driver.get(url)
@@ -53,7 +56,7 @@ def crawer(Gmail, Password, Pagemun, Pagesec):
     try:
         driver.find_element(By.XPATH, '//*[@id="user-menu-toggle"]/span/span/span/span')
     except:
-        tk.messagebox.showinfo("錯誤訊息", "帳號或密碼爛了")  # type: ignore
+        messagebox.showinfo("錯誤訊息", "帳號或密碼爛了")
         return
 
     sleep(1)
@@ -61,7 +64,7 @@ def crawer(Gmail, Password, Pagemun, Pagesec):
         Readingbtn = driver.find_element(By.LINK_TEXT, "Continue Reading")
         Readingbtn.click()
     except:
-        tk.messagebox.showinfo("錯誤訊息", "未選取書籍/已閱讀完畢")  # type: ignore
+        messagebox.showinfo("錯誤訊息", "未選取書籍/已閱讀完畢")
         return
     sleep(2)
     for i in range(Pagemun):
@@ -76,14 +79,15 @@ def crawer(Gmail, Password, Pagemun, Pagesec):
             if btn.text == "Close":
                 btn.click()
                 end = 1
-                tk.messagebox.showinfo("完成訊息", "讀完整本書了")  # type: ignore
+                messagebox.showinfo("完成訊息", "讀完整本書了")
                 break
             elif btn.text == "Next":
                 btn.click()
                 print(f"now done {i+1}st page")
                 break
         if i == Pagemun - 1:
-            tk.messagebox.showinfo("完成訊息", f"讀完{pagemun}頁了")  # type: ignore
+            messagebox.showinfo("完成訊息", f"讀完{i+1}頁了")
+            print(f"讀完{i+1}頁了")
     sleep(5)
 
     driver.close()
