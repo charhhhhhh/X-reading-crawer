@@ -120,19 +120,16 @@ def main():
         text="password password password password",
         height=1,
         font=entry_font,
-
     )
     lb3 = tk.Label(
         text="讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 ",
         height=1,
         font=entry_font,
-
     )
     lb4 = tk.Label(
         text="隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 ",
         height=1,
         font=entry_font,
-
     )
     startbtn = tk.Button(
         text="開始讀開始讀開始讀開始讀開始讀",
