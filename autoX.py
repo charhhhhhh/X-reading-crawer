@@ -1,4 +1,4 @@
-from cgitb import text
+# from cgitb import text
 from tkinter.font import BOLD
 import selenium
 import random
@@ -86,7 +86,6 @@ def crawer(Gmail, Password, Pagemun, Pagesec):
         for btn in btns:
             if btn.text == "Close":
                 btn.click()
-                end = 1
                 messagebox.showinfo("完成訊息", "讀完整本書了")
                 break
             elif btn.text == "Next":
@@ -146,6 +145,15 @@ def main():
     user_data = load_user_data()
     if user_data:
         gmail = tk.Entry(width=40, textvariable=tk.StringVar(value=user_data["gmail"]))
+        password = tk.Entry(
+            width=40, show="*", textvariable=tk.StringVar(value=user_data["password"])
+        )
+        pagemun = tk.Entry(
+            width=40, textvariable=tk.StringVar(value=user_data["pagemun"])
+        )
+        pagesec = tk.Entry(
+            width=40, textvariable=tk.StringVar(value=user_data["pagesec"])
+        )
         password = tk.Entry(
             width=40, show="*", textvariable=tk.StringVar(value=user_data["password"])
         )
