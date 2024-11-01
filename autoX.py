@@ -109,7 +109,7 @@ def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     icon_path = os.path.join(current_dir, "logo.ico")
     window.iconbitmap(icon_path)
-   
+
     entry_font = ("Arial", 14)
     lb = tk.Label(
         text="gmail gmail gmail gmail gmail gmail gmail",
@@ -146,9 +146,15 @@ def main():
     user_data = load_user_data()
     if user_data:
         gmail = tk.Entry(width=40, textvariable=tk.StringVar(value=user_data["gmail"]))
-        password = tk.Entry(width=40, show="*", textvariable=tk.StringVar(value=user_data["password"]))
-        pagemun = tk.Entry(width=40, textvariable=tk.StringVar(value=user_data["pagemun"]))
-        pagesec = tk.Entry(width=40, textvariable=tk.StringVar(value=user_data["pagesec"]))
+        password = tk.Entry(
+            width=40, show="*", textvariable=tk.StringVar(value=user_data["password"])
+        )
+        pagemun = tk.Entry(
+            width=40, textvariable=tk.StringVar(value=user_data["pagemun"])
+        )
+        pagesec = tk.Entry(
+            width=40, textvariable=tk.StringVar(value=user_data["pagesec"])
+        )
     else:
         gmail = tk.Entry(width=40)
         password = tk.Entry(width=40, show="*")
@@ -162,6 +168,7 @@ def main():
 
     window.mainloop()
 
+
 if __name__ == "__main__":
     main()
-# pyinstaller --onefile --windowed --add-data "logo.ico;." autoX.py
+# pyinstaller --onefile --windowed --clean --add-data "logo.ico;." --icon "logo.ico" autoX.py
