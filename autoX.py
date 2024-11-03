@@ -12,19 +12,76 @@ import tkinter as tk
 from tkinter import messagebox
 
 USER_DATA_FILE = "user_data.json"
+NOW_USER = "user1"
+
+init_user_data = {
+    "user1": {"gmail": "", "password": "", "pagemun": "", "pagesec": ""},
+    "user2": {"gmail": "", "password": "", "pagemun": "", "pagesec": ""},
+    "user3": {"gmail": "", "password": "", "pagemun": "", "pagesec": ""},
+}
 
 
-def save_user_data(data):
+def save_user_data(user, data):
+    all_data = load_user_data()
+    all_data[user] = data
     with open(USER_DATA_FILE, "w") as f:
-        json.dump(data, f)
+        json.dump(all_data, f, indent=4)
 
 
 def load_user_data():
-    """從 JSON 文件中讀取使用者資料"""
-    if os.path.exists(USER_DATA_FILE):
-        with open(USER_DATA_FILE, "r") as f:
-            return json.load(f)
-    return None
+    if not os.path.exists(USER_DATA_FILE):
+        with open(USER_DATA_FILE, "w") as f:
+            json.dump(init_user_data, f, indent=4)
+    with open(USER_DATA_FILE, "r") as f:
+        return json.load(f)
+
+
+def init_data(var, gmail, password, pagemun, pagesec):
+    data = load_user_data()
+    gmail.insert(0, data["user1"]["gmail"])
+    password.insert(0, data["user1"]["password"])
+    pagemun.insert(0, data["user1"]["pagemun"])
+    pagesec.insert(0, data["user1"]["pagesec"])
+
+
+def change_data(var, gmail, password, pagemun, pagesec):
+    global NOW_USER
+
+    save_user_data(
+        NOW_USER,
+        old_data={
+            "gmail": f"{gmail.get()}",
+            "password": f"{password.get()}",
+            "pagemun": f"{pagemun.get()}",
+            "pagesec": f"{pagesec.get()}",
+        },
+    )
+
+    gmail.delete(0, "end")
+    password.delete(0, "end")
+    pagemun.delete(0, "end")
+    pagesec.delete(0, "end")
+
+    data = load_user_data()
+    if var == 1:
+        gmail.insert(0, data["user1"]["gmail"])
+        password.insert(0, data["user1"]["password"])
+        pagemun.insert(0, data["user1"]["pagemun"])
+        pagesec.insert(0, data["user1"]["pagesec"])
+        NOW_USER = "user1"
+    elif var == 2:
+        gmail.insert(0, data["user2"]["gmail"])
+        password.insert(0, data["user2"]["password"])
+        pagemun.insert(0, data["user2"]["pagemun"])
+        pagesec.insert(0, data["user2"]["pagesec"])
+        NOW_USER = "user2"
+
+    elif var == 3:
+        gmail.insert(0, data["user3"]["gmail"])
+        password.insert(0, data["user3"]["password"])
+        pagemun.insert(0, data["user3"]["pagemun"])
+        pagesec.insert(0, data["user3"]["pagesec"])
+        NOW_USER = "user3"
 
 
 def is_integer(text):
@@ -111,68 +168,91 @@ def main():
 
     entry_font = ("Arial", 14)
     lb = tk.Label(
-        text="gmail gmail gmail gmail gmail gmail gmail",
+        text="gmail",
         height=1,
         font=entry_font,
     )
     lb2 = tk.Label(
-        text="password password password password",
+        text="password",
         height=1,
         font=entry_font,
     )
     lb3 = tk.Label(
-        text="讀多少頁 讀多少頁 讀多少頁 讀多少頁 讀多少頁 ",
+        text="讀多少頁",
         height=1,
         font=entry_font,
     )
     lb4 = tk.Label(
-        text="隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 隔幾秒翻頁 ",
+        text="隔幾秒翻頁",
         height=1,
         font=entry_font,
     )
+    lb5 = tk.Label(
+        text="切換使用者",
+        height=1,
+        font=("Arial", 12),
+    )
+    lb6 = tk.Label(
+        text="徵求美工",
+        height=1,
+        font=("Arial", 12),
+    )
     startbtn = tk.Button(
-        text="開始讀開始讀開始讀開始讀開始讀",
+        text="開始讀",
         font=("Arial", 30, BOLD),
         command=lambda: init(gmail.get(), password.get(), pagemun.get(), pagesec.get()),
     )
 
-    lb.place(x=-35, y=-5)
-    lb2.place(x=-40, y=45)
-    lb3.place(x=-15, y=95)
-    lb4.place(x=-50, y=145)
-    startbtn.place(x=30, y=250, anchor=CENTER)
+    gmail = tk.Entry(width=40)
+    password = tk.Entry(
+        width=40,
+        show="*",
+    )
+    pagemun = tk.Entry(width=40)
+    pagesec = tk.Entry(width=40)
+    init_data(1, gmail, password, pagemun, pagesec)
 
-    user_data = load_user_data()
-    if user_data:
-        gmail = tk.Entry(width=40, textvariable=tk.StringVar(value=user_data["gmail"]))
-        password = tk.Entry(
-            width=40, show="*", textvariable=tk.StringVar(value=user_data["password"])
-        )
-        pagemun = tk.Entry(
-            width=40, textvariable=tk.StringVar(value=user_data["pagemun"])
-        )
-        pagesec = tk.Entry(
-            width=40, textvariable=tk.StringVar(value=user_data["pagesec"])
-        )
-        password = tk.Entry(
-            width=40, show="*", textvariable=tk.StringVar(value=user_data["password"])
-        )
-        pagemun = tk.Entry(
-            width=40, textvariable=tk.StringVar(value=user_data["pagemun"])
-        )
-        pagesec = tk.Entry(
-            width=40, textvariable=tk.StringVar(value=user_data["pagesec"])
-        )
-    else:
-        gmail = tk.Entry(width=40)
-        password = tk.Entry(width=40, show="*")
-        pagemun = tk.Entry(width=40)
-        pagesec = tk.Entry(width=40)
+    radioVar = tk.IntVar()
+    radioVar.set(1)
+    radio1 = tk.Radiobutton(
+        text="1",
+        variable=radioVar,
+        value=1,
+        font=("Arial", 12),
+        command=lambda: change_data(radioVar.get(), gmail, password, pagemun, pagesec),
+    )
+    radio2 = tk.Radiobutton(
+        text="2",
+        variable=radioVar,
+        value=2,
+        font=("Arial", 12),
+        command=lambda: change_data(radioVar.get(), gmail, password, pagemun, pagesec),
+    )
+    radio3 = tk.Radiobutton(
+        text="3",
+        variable=radioVar,
+        value=3,
+        font=("Arial", 12),
+        command=lambda: change_data(radioVar.get(), gmail, password, pagemun, pagesec),
+    )
 
     gmail.place(x=8, y=25)
     password.place(x=8, y=75)
     pagemun.place(x=8, y=125)
     pagesec.place(x=8, y=175)
+
+    radio1.place(x=160, y=220)
+    radio2.place(x=160, y=240)
+    radio3.place(x=160, y=260)
+
+    lb.place(x=0, y=-5)
+    lb2.place(x=0, y=45)
+    lb3.place(x=0, y=95)
+    lb4.place(x=0, y=145)
+    lb5.place(x=160, y=200)
+    lb6.place(x=240, y=240)
+
+    startbtn.place(x=80, y=250, anchor=CENTER)
 
     window.mainloop()
 
