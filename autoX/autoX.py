@@ -47,16 +47,13 @@ def init_data(var, gmail, password, pagemun, pagesec):
 def change_data(var, gmail, password, pagemun, pagesec):
     global NOW_USER
 
-    save_user_data(
-        NOW_USER,
-        old_data={
-            "gmail": f"{gmail.get()}",
-            "password": f"{password.get()}",
-            "pagemun": f"{pagemun.get()}",
-            "pagesec": f"{pagesec.get()}",
-        },
-    )
-
+    old_data = {
+        "gmail": gmail.get(),
+        "password": password.get(),
+        "pagemun": pagemun.get(),
+        "pagesec": pagesec.get(),
+    }
+    save_user_data(NOW_USER, old_data)
     gmail.delete(0, "end")
     password.delete(0, "end")
     pagemun.delete(0, "end")
@@ -97,7 +94,6 @@ def init(gm, pa, mu, se):
         messagebox.showinfo("錯誤訊息", f"間格爛了")
     else:
         print(f"{gm} {pa} {mu} {se}")
-        save_user_data(data={"gmail": gm, "password": pa, "pagemun": mu, "pagesec": se})
         crawer(gm, pa, mu, se)
 
 
