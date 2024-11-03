@@ -191,7 +191,7 @@ def main():
     lb6 = tk.Label(
         text="徵求美工",
         height=1,
-        font=("Arial", 12),
+        font=("Arial", 12, "italic", "underline"),
     )
     startbtn = tk.Button(
         text="開始讀",
@@ -246,7 +246,7 @@ def main():
     lb3.place(x=0, y=95)
     lb4.place(x=0, y=145)
     lb5.place(x=160, y=200)
-    lb6.place(x=240, y=240)
+    lb6.place(x=220, y=220)
 
     startbtn.place(x=80, y=250, anchor=CENTER)
 
