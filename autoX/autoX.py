@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from tkinter.constants import CENTER
 import tkinter as tk
 from tkinter import messagebox
+import webbrowser
 
 USER_DATA_FILE = "user_data.json"
 NOW_USER = "user1"
@@ -19,6 +20,10 @@ init_user_data = {
     "user2": {"gmail": "", "password": "", "pagemun": "", "pagesec": ""},
     "user3": {"gmail": "", "password": "", "pagemun": "", "pagesec": ""},
 }
+
+
+def open_link():
+    webbrowser.open_new("https://github.com/charhhhhhh/X-reading-crawer")
 
 
 def save_user_data(user, data):
@@ -193,6 +198,11 @@ def main():
         height=1,
         font=("Arial", 12, "italic", "underline"),
     )
+    gitbtn = tk.Button(
+        text="github",
+        font=("Arial", 15, "italic", "underline"),
+        command=open_link,
+    )
     startbtn = tk.Button(
         text="開始讀",
         font=("Arial", 30, BOLD),
@@ -246,8 +256,9 @@ def main():
     lb3.place(x=0, y=95)
     lb4.place(x=0, y=145)
     lb5.place(x=160, y=200)
-    lb6.place(x=220, y=220)
+    lb6.place(x=205, y=220)
 
+    gitbtn.place(x=205, y=250)
     startbtn.place(x=80, y=250, anchor=CENTER)
 
     window.mainloop()
